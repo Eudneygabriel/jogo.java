@@ -27,7 +27,7 @@ public class DamasGUI extends JFrame {
             for (int coluna = 0; coluna < 8; coluna++) {
                 Peca peca = tabuleiro.getPeca(linha, coluna);
                 if (peca != null) {
-                    botoes[linha][coluna].setText(peca.isBranca() ? "B" : "P");
+                    botoes[linha][coluna].setText(peca.isBranca() ? "B" : "R");
                 } else {
                     botoes[linha][coluna].setText("");
                 }

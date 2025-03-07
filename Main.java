@@ -29,10 +29,13 @@ class GamePanel extends JPanel implements MouseListener {
         balls = new ArrayList<>();
         rand = new Random();
 
-        // Adiciona algumas bolas ao jogo
-        for (int i = 0; i < 10; i++) {
-            balls.add(new Ball(rand.nextInt(500), rand.nextInt(500), rand.nextInt(5), rand.nextInt(5), randColor()));
-        }
+        // Adiciona 6 bolas de cada cor
+        addBallsOfColor(Color.RED, 6);
+        addBallsOfColor(Color.BLUE, 6);
+        addBallsOfColor(Color.GREEN, 6);
+        addBallsOfColor(Color.YELLOW, 6);
+        addBallsOfColor(Color.MAGENTA, 6);
+        addBallsOfColor(Color.CYAN, 6);
 
         addMouseListener(this); // Para detectar cliques
         setBackground(Color.white);
@@ -71,9 +74,11 @@ class GamePanel extends JPanel implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {}
 
-    // Método para gerar uma cor aleatória
-    private Color randColor() {
-        return new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256));
+    // Método para adicionar 6 bolas de uma cor específica
+    private void addBallsOfColor(Color color, int count) {
+        for (int i = 0; i < count; i++) {
+            balls.add(new Ball(rand.nextInt(500), rand.nextInt(500), rand.nextInt(5), rand.nextInt(5), color));
+        }
     }
 }
 

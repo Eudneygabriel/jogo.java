@@ -22,6 +22,6 @@ public class Peca {
     @Override
     public String toString() {
         if (ehDama) return ehBranca ? "D" : "d";
-        return ehBranca ? "B" : "P";
+        return ehBranca ? "B" : "R";
     }
 }
