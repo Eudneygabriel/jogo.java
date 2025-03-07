@@ -19,9 +19,5 @@ public class Peca {
         this.ehDama = true;
     }
 
-    @Override
-    public String toString() {
-        if (ehDama) return ehBranca ? "D" : "d";
-        return ehBranca ? "B" : "P";
-    }
+    // Remover o método toString()
 }
