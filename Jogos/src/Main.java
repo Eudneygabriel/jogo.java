@@ -15,6 +15,18 @@ public class Main {
         GamePanel panel = new GamePanel();
         frame.add(panel);
 
+        // Botão para retornar ao menu inicial
+        JButton botaoRetornar = new JButton("Retornar ao Menu Inicial");
+        botaoRetornar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuInicial().setVisible(true); // Abre o menu inicial
+                frame.dispose(); // Fecha a janela do jogo de Bolas
+            }
+        });
+        
+        frame.add(botaoRetornar, BorderLayout.SOUTH); // Adiciona o botão ao painel
+
         // Tornando a janela visível
         frame.setVisible(true);
     }

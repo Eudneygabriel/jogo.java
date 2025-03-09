@@ -32,6 +32,18 @@ public class DamasGUI extends JFrame {
         add(statusLabel, BorderLayout.NORTH);
         add(tabuleiroPanel, BorderLayout.CENTER);
 
+        // Botão para retornar ao menu inicial
+        JButton botaoRetornar = new JButton("Retornar ao Menu Inicial");
+        botaoRetornar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MenuInicial().setVisible(true); // Abre o menu inicial
+                dispose(); // Fecha a janela do jogo de Damas
+            }
+        });
+        
+        add(botaoRetornar, BorderLayout.SOUTH); // Adiciona o botão ao painel
+
         atualizarTabuleiro();
     }
 
