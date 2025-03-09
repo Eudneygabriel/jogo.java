@@ -1,27 +1,26 @@
 public class Peca {
-    private boolean ehBranca; // Define se a peça é branca ou preta
-    private boolean ehDama;   // Define se a peça é promovida (dama)
+    private boolean isBranca; // Verdadeiro para branco, falso para preto
+    private boolean isDama;   // Indica se a peça é uma dama (Rei)
 
-    public Peca(boolean ehBranca) {
-        this.ehBranca = ehBranca;
-        this.ehDama = false; // No início, nenhuma peça é dama
+    public Peca(boolean isBranca) {
+        this.isBranca = isBranca;
+        this.isDama = false; // Peças começam como não damas
     }
 
     public boolean isBranca() {
-        return ehBranca;
+        return isBranca;
     }
 
     public boolean isDama() {
-        return ehDama;
+        return isDama;
     }
 
     public void tornarDama() {
-        this.ehDama = true;
+        this.isDama = true; // Converte a peça em dama
     }
 
     @Override
     public String toString() {
-        if (ehDama) return ehBranca ? "D" : "d";
-        return ehBranca ? "B" : "R";
+        return isBranca ? (isDama ? "B*" : "B") : (isDama ? "P*" : "P");
     }
 }
