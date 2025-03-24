@@ -61,12 +61,17 @@ public class DamasGUI extends JFrame {
             }
         }
     }
-
     private void destacarMovimentosValidos(int linha, int coluna) {
+        // Primeiro verifica se há capturas obrigatórias
+        boolean haCapturas = tabuleiro.existeCapturaDisponivel(tabuleiro.getTurnoBranco());
+        
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (tabuleiro.validarMovimento(linha, coluna, i, j)) {
-                    botoes[i][j].setBackground(Color.YELLOW); // Destaca casas válidas
+                    // Se há capturas obrigatórias, só destaca capturas
+                    if (!haCapturas || Math.abs(i - linha) > 1) {
+                        botoes[i][j].setBackground(Color.YELLOW);
+                    }
                 }
             }
         }
@@ -80,7 +85,7 @@ public class DamasGUI extends JFrame {
             this.coluna = coluna;
         }
 
-       @Override
+        @Override
 public void actionPerformed(ActionEvent e) {
     if (linhaOrigem == -1 && colunaOrigem == -1) {
         // Seleciona a peça de origem
@@ -97,21 +102,28 @@ public void actionPerformed(ActionEvent e) {
         linhaOrigem = -1;
         colunaOrigem = -1;
         atualizarTabuleiro(); // Atualiza o tabuleiro para remover os destaques
-    } else {
+    } else  {
         // Tenta mover a peça para o destino
         if (tabuleiro.validarMovimento(linhaOrigem, colunaOrigem, linha, coluna)) {
             tabuleiro.moverPeca(linhaOrigem, colunaOrigem, linha, coluna);
-            tabuleiro.alternarTurno();
             atualizarTabuleiro();
             statusLabel.setText(tabuleiro.getTurnoBranco() ? "Vez das Brancas" : "Vez das Pretas");
+
+            // Verifica se há mais capturas possíveis
+            if (tabuleiro.existeCapturaDisponivel(tabuleiro.getTurnoBranco())){
+                linhaOrigem = linha;
+                colunaOrigem = coluna;
+                botoes[linha][coluna].setBackground(Color.CYAN); // Mantém a peça selecionada
+                destacarMovimentosValidos(linha, coluna); // Destaca os movimentos válidos
+            } else {
+                // Reseta a seleção
+                botoes[linhaOrigem][colunaOrigem].setBackground((linhaOrigem + colunaOrigem) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
+                linhaOrigem = -1;
+                colunaOrigem = -1;
+            }
         } else {
             JOptionPane.showMessageDialog(DamasGUI.this, "Movimento inválido!");
         }
-        // Reseta a seleção
-        botoes[linhaOrigem][colunaOrigem].setBackground((linhaOrigem + colunaOrigem) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
-        linhaOrigem = -1;
-        colunaOrigem = -1;
-        atualizarTabuleiro(); // Atualiza o tabuleiro para remover os destaques
     }
 }
     }

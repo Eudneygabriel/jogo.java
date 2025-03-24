@@ -6,6 +6,9 @@ public class Peca {
         this.isBranca = isBranca;
         this.isDama = false; // Peças começam como não damas
     }
+    public int getDirecao() {
+        return isBranca() ? 1 : -1;
+    }
 
     public boolean isBranca() {
         return isBranca;
