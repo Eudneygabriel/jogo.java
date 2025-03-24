@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class JogoDamas {
     private static Scanner scanner = new Scanner(System.in);
@@ -11,6 +12,12 @@ public class JogoDamas {
                 System.out.println("Vez das Brancas!");
             } else {
                 System.out.println("Vez das Pretas!");
+            }
+
+            // Verifica se um jogador venceu
+            if (tabuleiro.jogadorVenceu()) {
+                JOptionPane.showMessageDialog(null, "Parabéns! O jogador " + (tabuleiro.getTurnoBranco() ? "Branco" : "Preto") + " venceu!");
+                break; // Encerra o jogo
             }
 
             try {
