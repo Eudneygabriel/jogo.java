@@ -57,10 +57,22 @@ public class DamasGUI extends JFrame {
                 } else {
                     botoes[linha][coluna].setText("");
                 }
-                botoes[linha][coluna].setBackground((linha + coluna) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
+                // Cor de fundo padrão
+                botoes[linha][coluna].setBackground(
+                    (linha + coluna) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
             }
         }
+        
+        // Destacar peças com captura obrigatória
+        destacarPecasObrigatorias();
+        
+        // Destacar última peça movida (se houver captura adicional)
+        if (tabuleiro.getUltimaPecaMovida() != null) {
+            int[] pos = tabuleiro.getUltimaPecaMovida();
+            botoes[pos[0]][pos[1]].setBackground(Color.CYAN);
+        }
     }
+
     private void destacarMovimentosValidos(int linha, int coluna) {
         // Primeiro verifica se há capturas obrigatórias
         boolean haCapturas = tabuleiro.existeCapturaDisponivel(tabuleiro.getTurnoBranco());
@@ -77,6 +89,14 @@ public class DamasGUI extends JFrame {
         }
     }
 
+    private void destacarPecasObrigatorias() {
+        
+        // Destacar peças com captura obrigatória em azul
+        for (int[] posicao : tabuleiro.getPecasComCapturaObrigatoria()) {
+            botoes[posicao[0]][posicao[1]].setBackground(Color.BLUE);
+        }
+    }
+
     private class BotaoClickListener implements ActionListener {
         private int linha, coluna;
 
@@ -87,6 +107,12 @@ public class DamasGUI extends JFrame {
 
         @Override
 public void actionPerformed(ActionEvent e) {
+    if (!tabuleiro.podeMoverOutraPeca(linha, coluna)) {
+        JOptionPane.showMessageDialog(DamasGUI.this, 
+            "Você deve continuar capturando com esta peça!");
+        return;
+    }
+            
     if (linhaOrigem == -1 && colunaOrigem == -1) {
         // Seleciona a peça de origem
         Peca peca = tabuleiro.getPeca(linha, coluna);
@@ -109,23 +135,23 @@ public void actionPerformed(ActionEvent e) {
             atualizarTabuleiro();
             statusLabel.setText(tabuleiro.getTurnoBranco() ? "Vez das Brancas" : "Vez das Pretas");
 
-            // Verifica se há mais capturas possíveis
-            if (tabuleiro.existeCapturaDisponivel(tabuleiro.getTurnoBranco())){
-                linhaOrigem = linha;
-                colunaOrigem = coluna;
-                botoes[linha][coluna].setBackground(Color.CYAN); // Mantém a peça selecionada
-                destacarMovimentosValidos(linha, coluna); // Destaca os movimentos válidos
-            } else {
-                // Reseta a seleção
-                botoes[linhaOrigem][colunaOrigem].setBackground((linhaOrigem + colunaOrigem) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
-                linhaOrigem = -1;
-                colunaOrigem = -1;
+                    // Verifica se há mais capturas possíveis
+                    if (tabuleiro.existeCapturaDisponivel(tabuleiro.getTurnoBranco())){
+                        linhaOrigem = linha;
+                        colunaOrigem = coluna;
+                        botoes[linha][coluna].setBackground(Color.CYAN); // Mantém a peça selecionada
+                        destacarMovimentosValidos(linha, coluna); // Destaca os movimentos válidos
+                    } else {
+                        // Reseta a seleção
+                        botoes[linhaOrigem][colunaOrigem].setBackground((linhaOrigem + colunaOrigem) % 2 == 0 ? Color.WHITE : Color.DARK_GRAY);
+                        linhaOrigem = -1;
+                        colunaOrigem = -1;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(DamasGUI.this, "Movimento inválido!");
+                }
             }
-        } else {
-            JOptionPane.showMessageDialog(DamasGUI.this, "Movimento inválido!");
         }
-    }
-}
     }
 
     public static void main(String[] args) {

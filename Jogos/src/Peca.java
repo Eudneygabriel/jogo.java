@@ -17,6 +17,14 @@ public class Peca {
     public boolean isDama() {
         return isDama;
     }
+    public boolean podeMoverMultiplasCasas() {
+        return isDama; // Somente damas podem mover múltiplas casas
+    }
+    
+    public boolean podeCapturarParaTras() {
+        return isDama; // Somente damas podem capturar para trás
+    }
+
 
     public void tornarDama() {
         this.isDama = true; // Converte a peça em dama
@@ -24,6 +32,6 @@ public class Peca {
 
     @Override
     public String toString() {
-        return isBranca ? (isDama ? "B*" : "B") : (isDama ? "P*" : "P");
+        return isBranca ? (isDama ? "B£" : "B") : (isDama ? "P£" : "P");
     }
 }

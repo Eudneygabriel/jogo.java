@@ -36,10 +36,18 @@ class GamePanel extends JPanel implements MouseListener {
 
     private ArrayList<Ball> balls;
     private Random rand;
+    private Map<Color, Integer> colorCount;
 
     public GamePanel() {
         balls = new ArrayList<>();
         rand = new Random();
+        colorCount = new HashMap<>();
+        colorCount.put(Color.RED, 0);
+        colorCount.put(Color.BLUE, 0);
+        colorCount.put(Color.GREEN, 0);
+        colorCount.put(Color.YELLOW, 0);
+        colorCount.put(Color.MAGENTA, 0);
+        colorCount.put(Color.CYAN, 0);
 
         // Adiciona 6 bolas de cada cor
         addBallsOfColor(Color.RED, 6);
@@ -71,7 +79,13 @@ class GamePanel extends JPanel implements MouseListener {
             if (e.getX() >= ball.x && e.getX() <= ball.x + 30 && e.getY() >= ball.y && e.getY() <= ball.y + 30) {
                 // Simula a explosão (remover bola)
                 balls.remove(ball);
+                colorCount.put(ball.color, colorCount.get(ball.color) + 1);
                 repaint();
+                
+                // Verifica se 6 bolas da mesma cor foram removidas
+                if (colorCount.get(ball.color) >= 6) {
+                    resetGame();
+                }
                 break;
             }
         }
@@ -91,6 +105,18 @@ class GamePanel extends JPanel implements MouseListener {
         for (int i = 0; i < count; i++) {
             balls.add(new Ball(rand.nextInt(500), rand.nextInt(500), rand.nextInt(5), rand.nextInt(5), color));
         }
+    }
+
+    private void resetGame() {
+        balls.clear();
+        colorCount.clear();
+        addBallsOfColor(Color.RED, 6);
+        addBallsOfColor(Color.BLUE, 6);
+        addBallsOfColor(Color.GREEN, 6);
+        addBallsOfColor(Color.YELLOW, 6);
+        addBallsOfColor(Color.MAGENTA, 6);
+        addBallsOfColor(Color.CYAN, 6);
+        repaint();
     }
 }
 
